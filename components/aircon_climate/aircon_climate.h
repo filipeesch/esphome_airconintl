@@ -562,7 +562,7 @@ namespace esphome
                 }
             }
 
-            ClimateTraits traits() override
+            climate::ClimateTraits traits() override
             {
                 // The capabilities of the climate device
                 auto traits = climate::ClimateTraits();
