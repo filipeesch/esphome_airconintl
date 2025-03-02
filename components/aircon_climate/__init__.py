@@ -17,6 +17,5 @@ CONFIG_SCHEMA = climate.CLIMATE_SCHEMA.extend({
 }).extend(cv.COMPONENT_SCHEMA)
 
 async def to_code(config):
-    # var = cg.new_Pvariable(config[CONF_ID], config[CONF_UART])
-    var = cg.new_Pvariable(config[CONF_ID])    
+    var = cg.new_Pvariable(config[CONF_ID], config[CONF_UART])
     await cg.register_component(var, config)
