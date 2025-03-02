@@ -189,17 +189,17 @@ namespace esphome
         {
         public:
             AirconClimate(uart::UARTComponent *parent) : PollingComponent(5000),
-                                                   UARTDevice(parent),
-                                                   compressor_frequency(),
-                                                   compressor_frequency_setting(),
-                                                   compressor_frequency_send(),
-                                                   outdoor_temperature(),
-                                                   outdoor_condenser_temperature(),
-                                                   compressor_exhaust_temperature(),
-                                                   target_exhaust_temperature(),
-                                                   indoor_pipe_temperature(),
-                                                   indoor_humidity_setting(),
-                                                   indoor_humidity_status() {}
+                                                         UARTDevice(parent),
+                                                         compressor_frequency(),
+                                                         compressor_frequency_setting(),
+                                                         compressor_frequency_send(),
+                                                         outdoor_temperature(),
+                                                         outdoor_condenser_temperature(),
+                                                         compressor_exhaust_temperature(),
+                                                         target_exhaust_temperature(),
+                                                         indoor_pipe_temperature(),
+                                                         indoor_humidity_setting(),
+                                                         indoor_humidity_status() {}
 
             void setup() override
             {
@@ -399,7 +399,7 @@ namespace esphome
                     }
 
                     // User requested mode change
-                    ClimateMode md = *call.get_mode();
+                    climate::ClimateMode md = *call.get_mode();
 
                     if (md != climate::CLIMATE_MODE_OFF && this->mode == climate::CLIMATE_MODE_OFF)
                     {
@@ -448,7 +448,7 @@ namespace esphome
 
                 if (call.get_fan_mode().has_value())
                 {
-                    ClimateFanMode fm = *call.get_fan_mode();
+                    climate::ClimateFanMode fm = *call.get_fan_mode();
                     switch (fm)
                     {
                     case climate::CLIMATE_FAN_AUTO:
@@ -475,7 +475,7 @@ namespace esphome
 
                 if (call.get_swing_mode().has_value())
                 {
-                    ClimateSwingMode sm = *call.get_swing_mode();
+                    climate::ClimateSwingMode sm = *call.get_swing_mode();
 
                     if (sm == climate::CLIMATE_SWING_OFF)
                     {
@@ -540,7 +540,7 @@ namespace esphome
 
                 if (call.get_preset().has_value())
                 {
-                    ClimatePreset pre = *call.get_preset();
+                    climate::ClimatePreset pre = *call.get_preset();
                     switch (pre)
                     {
                     case climate::CLIMATE_PRESET_NONE:
