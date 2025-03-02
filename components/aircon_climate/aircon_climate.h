@@ -9,6 +9,8 @@ namespace esphome
     namespace aircon_climate
     {
 
+        static const char *TAG = "aircon_climate.component";
+
         typedef struct _Device_Status
         {
             uint8_t header[16];
@@ -210,6 +212,11 @@ namespace esphome
                 indoor_humidity_setting.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
                 indoor_humidity_status.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
                 request_update();
+            }
+
+            void dump_config() override
+            {
+                ESP_LOGCONFIG(TAG, "Aircon Climate component");
             }
 
             void loop() override
