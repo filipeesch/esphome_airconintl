@@ -18,6 +18,5 @@ aircon_ns = cg.esphome_ns.namespace("aircon_climate")
 AirconClimate = aircon_ns.class_("AirconClimate", climate.Climate, cg.Component)
 
 def to_code(config):
-    var = cg.new_Pvariable(config[CONF_ID], config[CONF_UART])
-    # Add further configuration options here as needed.
-    yield
+    var = cg.new_Pvariable(config[CONF_ID], config[CONF_UART])    
+    await cg.register_component(var, config)
