@@ -1,21 +1,22 @@
-# import esphome.codegen as cg
-# import esphome.config_validation as cv
-# from esphome.components import climate, uart
-# from esphome.const import CONF_ID
+import esphome.codegen as cg
+import esphome.config_validation as cv
+from esphome.components import climate, uart
+from esphome.const import CONF_ID
 
-# DEPENDENCIES = ["uart"]
+DEPENDENCIES = ["uart"]
 
-# AUTO_LOAD = ["sensor"]
+AUTO_LOAD = ["sensor"]
 
-# CONFIG_SCHEMA = climate.CLIMATE_SCHEMA.extend({
-#     cv.GenerateID(): cv.declare_id(AirconClimate),
-#     cv.GenerateID("uart"): cv.use_id(uart.UARTComponent),
-# }).extend(cv.COMPONENT_SCHEMA)
+# Declare the namespace and the C++ class for your component.
+aircon_ns = cg.esphome_ns.namespace("aircon_climate")
+AirconClimate = aircon_ns.class_("AirconClimate", climate.Climate, cg.Component)
 
-# # Declare the namespace and the C++ class for your component.
-# aircon_ns = cg.esphome_ns.namespace("aircon_climate")
-# AirconClimate = aircon_ns.class_("AirconClimate", climate.Climate, cg.Component)
+CONFIG_SCHEMA = climate.CLIMATE_SCHEMA.extend({
+    cv.GenerateID(): cv.declare_id(AirconClimate),
+    cv.GenerateID("uart"): cv.use_id(uart.UARTComponent),
+}).extend(cv.COMPONENT_SCHEMA)
 
-# def to_code(config):
-#     var = cg.new_Pvariable(config[CONF_ID], config[CONF_UART])    
-#     await cg.register_component(var, config)
+async def to_code(config):
+    # var = cg.new_Pvariable(config[CONF_ID], config[CONF_UART])
+    var = cg.new_Pvariable(config[CONF_ID])    
+    await cg.register_component(var, config)
