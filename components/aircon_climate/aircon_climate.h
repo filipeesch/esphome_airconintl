@@ -185,7 +185,7 @@ namespace esphome
             uint8_t foooter[2];
         } Device_Status;
 
-        class AirconClimate : public PollingComponent, public Climate, public UARTDevice
+        class AirconClimate : public PollingComponent, public climahe::Climate, public uart::UARTDevice
         {
         public:
             AirconClimate(UARTComponent *parent) : PollingComponent(5000),
