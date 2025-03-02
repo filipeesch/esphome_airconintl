@@ -6,9 +6,6 @@
 #include "esphome/core/component.h"
 #include "commands.h"
 
-using namespace uart;
-using namespace climate;
-
 namespace esphome
 {
     namespace aircon_climate
@@ -191,7 +188,7 @@ namespace esphome
         class AirconClimate : public PollingComponent, public climate::Climate, public uart::UARTDevice
         {
         public:
-            AirconClimate(UARTComponent *parent) : PollingComponent(5000),
+            AirconClimate(uart::UARTComponent *parent) : PollingComponent(5000),
                                                    UARTDevice(parent),
                                                    compressor_frequency(),
                                                    compressor_frequency_setting(),
