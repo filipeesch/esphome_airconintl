@@ -6,6 +6,9 @@
 #include "esphome/core/component.h"
 #include "commands.h"
 
+using namespace uart;
+using namespace climate;
+
 namespace esphome
 {
     namespace aircon_climate
