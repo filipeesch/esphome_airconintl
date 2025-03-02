@@ -283,24 +283,24 @@ namespace esphome
 
                         if (((Device_Status *)uart_buf)->run_status == 0)
                         {
-                            mode = CLIMATE_MODE_OFF;
-                            action = CLIMATE_ACTION_OFF;
+                            mode = climate::CLIMATE_MODE_OFF;
+                            action = climate::CLIMATE_ACTION_OFF;
                         }
                         else if (((Device_Status *)uart_buf)->mode_status == 0)
                         {
-                            mode = CLIMATE_MODE_FAN_ONLY;
-                            action = CLIMATE_ACTION_FAN;
+                            mode = climate::CLIMATE_MODE_FAN_ONLY;
+                            action = climate::CLIMATE_ACTION_FAN;
                         }
                         else if (((Device_Status *)uart_buf)->mode_status == 1)
                         {
                             mode = climate::CLIMATE_MODE_HEAT;
                             if (comp_running)
                             {
-                                action = CLIMATE_ACTION_HEATING;
+                                action = climate::CLIMATE_ACTION_HEATING;
                             }
                             else
                             {
-                                action = CLIMATE_ACTION_IDLE;
+                                action = climate::CLIMATE_ACTION_IDLE;
                             }
                         }
                         else if (((Device_Status *)uart_buf)->mode_status == 2)
@@ -308,11 +308,11 @@ namespace esphome
                             mode = climate::CLIMATE_MODE_COOL;
                             if (comp_running)
                             {
-                                action = CLIMATE_ACTION_COOLING;
+                                action = climate::CLIMATE_ACTION_COOLING;
                             }
                             else
                             {
-                                action = CLIMATE_ACTION_IDLE;
+                                action = climate::CLIMATE_ACTION_IDLE;
                             }
                         }
                         else if (((Device_Status *)uart_buf)->mode_status == 3)
@@ -320,11 +320,11 @@ namespace esphome
                             mode = climate::CLIMATE_MODE_DRY;
                             if (comp_running)
                             {
-                                action = CLIMATE_ACTION_DRYING;
+                                action = climate::CLIMATE_ACTION_DRYING;
                             }
                             else
                             {
-                                action = CLIMATE_ACTION_IDLE;
+                                action = climate::CLIMATE_ACTION_IDLE;
                             }
                         }
 
@@ -350,11 +350,11 @@ namespace esphome
                         }
 
                         // Save target temperature since it gets messed up by the mode switch command
-                        if (this->mode == CLIMATE_MODE_COOL && target_temperature > 0)
+                        if (this->mode == climate::CLIMATE_MODE_COOL && target_temperature > 0)
                         {
                             cool_tgt_temp = target_temperature;
                         }
-                        else if (this->mode == CLIMATE_MODE_HEAT && target_temperature > 0)
+                        else if (this->mode == climate::CLIMATE_MODE_HEAT && target_temperature > 0)
                         {
                             heat_tgt_temp = target_temperature;
                         }
@@ -389,11 +389,11 @@ namespace esphome
                 if (call.get_mode().has_value())
                 {
                     // Save target temperature since it gets messed up by the mode switch command
-                    if (this->mode == CLIMATE_MODE_COOL && target_temperature > 0)
+                    if (this->mode == climate::CLIMATE_MODE_COOL && target_temperature > 0)
                     {
                         cool_tgt_temp = target_temperature;
                     }
-                    else if (this->mode == CLIMATE_MODE_HEAT && target_temperature > 0)
+                    else if (this->mode == climate::CLIMATE_MODE_HEAT && target_temperature > 0)
                     {
                         heat_tgt_temp = target_temperature;
                     }
@@ -799,7 +799,7 @@ namespace esphome
             }
 
             // Update sensors when the value has actually changed.
-            void set_sensor(Sensor &sensor, float value)
+            void set_sensor(sensor::Sensor &sensor, float value)
             {
                 if (!sensor.has_state() || sensor.get_raw_state() != value)
                     sensor.publish_state(value);
