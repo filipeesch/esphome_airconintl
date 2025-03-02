@@ -4,7 +4,6 @@ from esphome.components import climate, uart
 from esphome.const import CONF_ID
 
 DEPENDENCIES = ["uart"]
-CODEOWNERS = ["@your-github-handle"]
 
 AUTO_LOAD = ["sensor"]
 
