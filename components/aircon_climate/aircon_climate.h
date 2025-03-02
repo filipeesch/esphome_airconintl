@@ -384,7 +384,7 @@ namespace esphome
                 set_sensor(indoor_humidity_status, ((Device_Status *)uart_buf)->indoor_humidity_status);
             }
 
-            void control(const ClimateCall &call) override
+            void control(const climate::ClimateCall &call) override
             {
                 if (call.get_mode().has_value())
                 {
