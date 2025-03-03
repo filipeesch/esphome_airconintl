@@ -5,7 +5,7 @@ from esphome.const import CONF_ID
 
 DEPENDENCIES = ["uart"]
 
-AUTO_LOAD = ["sensor"]
+AUTO_LOAD = ["sensor", "climate"]
 
 # Declare the namespace and the C++ class for your component.
 aircon_ns = cg.esphome_ns.namespace("aircon_climate")
