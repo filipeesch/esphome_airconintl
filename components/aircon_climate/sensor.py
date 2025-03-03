@@ -1,0 +1,1 @@
+from esphome.components.aircon_climate import *
