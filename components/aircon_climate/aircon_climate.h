@@ -224,144 +224,98 @@ namespace esphome
             void loop() override
             {
                 int msg_size = 0;
+
                 while (available())
                 {
-                    msg_size = get_response(read(), uart_buf);
+                    msg_size = update_status(read());
+                    
                     if (msg_size > 0)
                     {
-                        ESP_LOGD(
-                            "aircon_climate",
-                            "compf: %d compf_set: %d compf_snd: %d",
-                            ((Device_Status *)uart_buf)->compressor_frequency,
-                            ((Device_Status *)uart_buf)->compressor_frequency_setting,
-                            ((Device_Status *)uart_buf)->compressor_frequency_send);
+                        ESP_LOGD(TAG, "compf: %d compf_set: %d compf_snd: %d",
+                                 status->compressor_frequency,
+                                 status->compressor_frequency_setting,
+                                 status->compressor_frequency_send);
 
-                        ESP_LOGD(
-                            "aircon_climate",
-                            "out_temp: %d out_cond_temp: %d comp_exh_temp: %d comp_exh_temp_tgt: %d",
-                            ((Device_Status *)uart_buf)->outdoor_temperature,
-                            ((Device_Status *)uart_buf)->outdoor_condenser_temperature,
-                            ((Device_Status *)uart_buf)->compressor_exhaust_temperature,
-                            ((Device_Status *)uart_buf)->target_exhaust_temperature);
+                        ESP_LOGD(TAG, "out_temp: %d out_cond_temp: %d comp_exh_temp: %d comp_exh_temp_tgt: %d",
+                                 status->outdoor_temperature,
+                                 status->outdoor_condenser_temperature,
+                                 status->compressor_exhaust_temperature,
+                                 status->target_exhaust_temperature);
 
-                        ESP_LOGD(
-                            "aircon_climate",
-                            "indoor_pipe_temp %d",
-                            ((Device_Status *)uart_buf)->indoor_pipe_temperature);
+                        ESP_LOGD(TAG, "indoor_pipe_temp: %d", status->indoor_pipe_temperature);
+                        ESP_LOGD(TAG, "indor_humid_set: %d indoor_humid: %d",
+                                 status->indoor_humidity_setting,
+                                 status->indoor_humidity_status);
 
-                        ESP_LOGD(
-                            "aircon_climate",
-                            "indor_humid_set: %d indoor_humid: %d",
-                            ((Device_Status *)uart_buf)->indoor_humidity_setting,
-                            ((Device_Status *)uart_buf)->indoor_humidity_status);
-
-                        // Convert temperatures to celsius
-                        float tgt_temp = (((Device_Status *)uart_buf)->indoor_temperature_setting - 32) * 0.5556f;
-                        float curr_temp = (((Device_Status *)uart_buf)->indoor_temperature_status - 32) * 0.5556f;
-
+                        // Convert temperatures to Celsius
+                        float tgt_temp = (status->indoor_temperature_setting - 32) * 0.5556f;
+                        float curr_temp = (status->indoor_temperature_status - 32) * 0.5556f;
                         if (tgt_temp > 7 && tgt_temp < 33)
                             target_temperature = tgt_temp;
-
                         if (curr_temp > 1 && curr_temp < 49)
                             current_temperature = curr_temp;
 
-                        // See if the system is actively running
-                        bool comp_running = false;
-                        if (((Device_Status *)uart_buf)->compressor_frequency > 0)
-                        {
-                            comp_running = true;
-                        }
+                        // Determine if the compressor is running
+                        bool comp_running = (status->compressor_frequency > 0);
 
-                        if (((Device_Status *)uart_buf)->left_right && ((Device_Status *)uart_buf)->up_down)
+                        // Update swing mode based on left/right and up/down bits
+                        if (status->left_right && status->up_down)
                             swing_mode = climate::CLIMATE_SWING_BOTH;
-                        else if (((Device_Status *)uart_buf)->left_right)
+                        else if (status->left_right)
                             swing_mode = climate::CLIMATE_SWING_HORIZONTAL;
-                        else if (((Device_Status *)uart_buf)->up_down)
+                        else if (status->up_down)
                             swing_mode = climate::CLIMATE_SWING_VERTICAL;
                         else
                             swing_mode = climate::CLIMATE_SWING_OFF;
 
-                        if (((Device_Status *)uart_buf)->run_status == 0)
+                        // Set mode and action based on run and mode status
+                        if (status->run_status == 0)
                         {
                             mode = climate::CLIMATE_MODE_OFF;
                             action = climate::CLIMATE_ACTION_OFF;
                         }
-                        else if (((Device_Status *)uart_buf)->mode_status == 0)
+                        else if (status->mode_status == 0)
                         {
                             mode = climate::CLIMATE_MODE_FAN_ONLY;
                             action = climate::CLIMATE_ACTION_FAN;
                         }
-                        else if (((Device_Status *)uart_buf)->mode_status == 1)
+                        else if (status->mode_status == 1)
                         {
                             mode = climate::CLIMATE_MODE_HEAT;
-                            if (comp_running)
-                            {
-                                action = climate::CLIMATE_ACTION_HEATING;
-                            }
-                            else
-                            {
-                                action = climate::CLIMATE_ACTION_IDLE;
-                            }
+                            action = comp_running ? climate::CLIMATE_ACTION_HEATING : climate::CLIMATE_ACTION_IDLE;
                         }
-                        else if (((Device_Status *)uart_buf)->mode_status == 2)
+                        else if (status->mode_status == 2)
                         {
                             mode = climate::CLIMATE_MODE_COOL;
-                            if (comp_running)
-                            {
-                                action = climate::CLIMATE_ACTION_COOLING;
-                            }
-                            else
-                            {
-                                action = climate::CLIMATE_ACTION_IDLE;
-                            }
+                            action = comp_running ? climate::CLIMATE_ACTION_COOLING : climate::CLIMATE_ACTION_IDLE;
                         }
-                        else if (((Device_Status *)uart_buf)->mode_status == 3)
+                        else if (status->mode_status == 3)
                         {
                             mode = climate::CLIMATE_MODE_DRY;
-                            if (comp_running)
-                            {
-                                action = climate::CLIMATE_ACTION_DRYING;
-                            }
-                            else
-                            {
-                                action = climate::CLIMATE_ACTION_IDLE;
-                            }
+                            action = comp_running ? climate::CLIMATE_ACTION_DRYING : climate::CLIMATE_ACTION_IDLE;
                         }
 
-                        if (((Device_Status *)uart_buf)->wind_status == 18)
-                        {
+                        // Set fan mode based on wind status
+                        if (status->wind_status == 18)
                             fan_mode = climate::CLIMATE_FAN_HIGH;
-                        }
-                        else if (((Device_Status *)uart_buf)->wind_status == 14)
-                        {
+                        else if (status->wind_status == 14)
                             fan_mode = climate::CLIMATE_FAN_MEDIUM;
-                        }
-                        else if (((Device_Status *)uart_buf)->wind_status == 10)
-                        {
+                        else if (status->wind_status == 10)
                             fan_mode = climate::CLIMATE_FAN_LOW;
-                        }
-                        else if (((Device_Status *)uart_buf)->wind_status == 2)
-                        {
+                        else if (status->wind_status == 2)
                             fan_mode = climate::CLIMATE_FAN_QUIET;
-                        }
-                        else if (((Device_Status *)uart_buf)->wind_status == 0)
-                        {
+                        else if (status->wind_status == 0)
                             fan_mode = climate::CLIMATE_FAN_AUTO;
-                        }
 
-                        // Save target temperature since it gets messed up by the mode switch command
+                        // Save target temperature for mode switching
                         if (this->mode == climate::CLIMATE_MODE_COOL && target_temperature > 0)
-                        {
                             cool_tgt_temp = target_temperature;
-                        }
                         else if (this->mode == climate::CLIMATE_MODE_HEAT && target_temperature > 0)
-                        {
                             heat_tgt_temp = target_temperature;
-                        }
                     }
                 }
 
-                // Send buffered data without inserting any new messages
+                // Send any pending messages
                 blocking_send(0, 0);
             }
 
@@ -610,11 +564,11 @@ namespace esphome
             float heat_tgt_temp = 16.1111f;
             float cool_tgt_temp = 26.6667f;
             static const int UART_BUF_SIZE = 128;
-            uint8_t uart_buf[UART_BUF_SIZE];
+            Device_Status* status = new Device_Status();
             bool wait_for_rx = false;
 
             // Handle bytes form the UART to build a complete message
-            int get_response(const uint8_t input, uint8_t *out)
+            int update_status(const uint8_t input)
             {
                 static char buf[UART_BUF_SIZE] = {0};
                 static int buf_idx = 0;
@@ -707,7 +661,7 @@ namespace esphome
                             "aircon_climate",
                             "Received %d bytes.",
                             msg_size);
-                        memcpy(out, buf, msg_size);
+                        memcpy((void*)status, buf, msg_size);
                         buf_idx = 0;
                         msg_size = 0;
                         checksum = 0;
