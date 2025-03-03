@@ -213,7 +213,7 @@ namespace esphome
                 indoor_pipe_temperature.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
                 indoor_humidity_setting.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
                 indoor_humidity_status.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
-                request_update();
+                update();
             }
 
             void dump_config() override
@@ -228,7 +228,7 @@ namespace esphome
                 while (available())
                 {
                     msg_size = update_status(read());
-                    
+
                     if (msg_size > 0)
                     {
                         ESP_LOGD(TAG, "compf: %d compf_set: %d compf_snd: %d",
@@ -326,16 +326,16 @@ namespace esphome
                 this->publish_state();
 
                 // Update sensors
-                set_sensor(compressor_frequency, ((Device_Status *)uart_buf)->compressor_frequency);
-                set_sensor(compressor_frequency_setting, ((Device_Status *)uart_buf)->compressor_frequency_setting);
-                set_sensor(compressor_frequency_send, ((Device_Status *)uart_buf)->compressor_frequency_send);
-                set_sensor(outdoor_temperature, ((Device_Status *)uart_buf)->outdoor_temperature);
-                set_sensor(outdoor_condenser_temperature, ((Device_Status *)uart_buf)->outdoor_condenser_temperature);
-                set_sensor(compressor_exhaust_temperature, ((Device_Status *)uart_buf)->compressor_exhaust_temperature);
-                set_sensor(target_exhaust_temperature, ((Device_Status *)uart_buf)->target_exhaust_temperature);
-                set_sensor(indoor_pipe_temperature, ((Device_Status *)uart_buf)->indoor_pipe_temperature);
-                set_sensor(indoor_humidity_setting, ((Device_Status *)uart_buf)->indoor_humidity_setting);
-                set_sensor(indoor_humidity_status, ((Device_Status *)uart_buf)->indoor_humidity_status);
+                set_sensor(compressor_frequency, status->compressor_frequency);
+                set_sensor(compressor_frequency_setting, status->compressor_frequency_setting);
+                set_sensor(compressor_frequency_send, status->compressor_frequency_send);
+                set_sensor(outdoor_temperature, status->outdoor_temperature);
+                set_sensor(outdoor_condenser_temperature, status->outdoor_condenser_temperature);
+                set_sensor(compressor_exhaust_temperature, status->compressor_exhaust_temperature);
+                set_sensor(target_exhaust_temperature, status->target_exhaust_temperature);
+                set_sensor(indoor_pipe_temperature, status->indoor_pipe_temperature);
+                set_sensor(indoor_humidity_setting, status->indoor_humidity_setting);
+                set_sensor(indoor_humidity_status, status->indoor_humidity_status);
             }
 
             void control(const climate::ClimateCall &call) override
@@ -564,7 +564,7 @@ namespace esphome
             float heat_tgt_temp = 16.1111f;
             float cool_tgt_temp = 26.6667f;
             static const int UART_BUF_SIZE = 128;
-            Device_Status* status = new Device_Status();
+            Device_Status *status = new Device_Status();
             bool wait_for_rx = false;
 
             // Handle bytes form the UART to build a complete message
@@ -661,7 +661,7 @@ namespace esphome
                             "aircon_climate",
                             "Received %d bytes.",
                             msg_size);
-                        memcpy((void*)status, buf, msg_size);
+                        memcpy((void *)status, buf, msg_size);
                         buf_idx = 0;
                         msg_size = 0;
                         checksum = 0;
