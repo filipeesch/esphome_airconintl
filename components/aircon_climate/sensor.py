@@ -1,1 +1,1 @@
-from esphome.components.aircon_climate import *
+from esphome.components.aircon_climate import AirconClimate
