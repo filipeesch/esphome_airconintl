@@ -188,7 +188,7 @@ namespace esphome
         class AirconClimate : public PollingComponent, public climate::Climate, public uart::UARTDevice
         {
         public:
-            AirconClimate(uart::UARTComponent *parent) : PollingComponent(5000),
+            AirconClimate(uart::UARTComponent *parent) : PollingComponent(30000),
                                                          UARTDevice(parent),
                                                          compressor_frequency(),
                                                          compressor_frequency_setting(),
