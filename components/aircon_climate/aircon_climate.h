@@ -247,13 +247,8 @@ namespace esphome
                                  status->indoor_humidity_setting,
                                  status->indoor_humidity_status);
 
-                        // Convert temperatures to Celsius
-                        float tgt_temp = (status->indoor_temperature_setting - 32) * 0.5556f;
-                        float curr_temp = (status->indoor_temperature_status - 32) * 0.5556f;
-                        if (tgt_temp > 7 && tgt_temp < 33)
-                            target_temperature = tgt_temp;
-                        if (curr_temp > 1 && curr_temp < 49)
-                            current_temperature = curr_temp;
+                        target_temperature = status->indoor_temperature_setting;
+                        current_temperature = status->indoor_temperature_status;
 
                         // Determine if the compressor is running
                         bool comp_running = (status->compressor_frequency > 0);
