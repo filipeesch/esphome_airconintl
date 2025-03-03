@@ -3,9 +3,9 @@ import esphome.config_validation as cv
 from esphome.components import climate, uart
 from esphome.const import CONF_ID
 
-DEPENDENCIES = ["uart"]
+DEPENDENCIES = ["climate", "uart"]
 
-AUTO_LOAD = ["sensor", "climate"]
+# AUTO_LOAD = ["sensor", "climate"]
 
 # Declare the namespace and the C++ class for your component.
 aircon_ns = cg.esphome_ns.namespace("aircon_climate")
@@ -21,4 +21,5 @@ async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID], uart_var)
 
     await cg.register_component(var, config)
+    await uart.register_uart_device(var, config)
     await climate.register_climate(var, config)
