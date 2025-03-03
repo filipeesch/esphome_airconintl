@@ -19,5 +19,6 @@ CONFIG_SCHEMA = climate.CLIMATE_SCHEMA.extend({
 async def to_code(config):
     uart_var = await cg.get_variable(config["uart"])
     var = cg.new_Pvariable(config[CONF_ID], uart_var)
+
     await cg.register_component(var, config)
-    await climate.new_climate(var, config)
+    await climate.register_climate(var, config)
