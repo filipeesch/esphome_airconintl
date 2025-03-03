@@ -757,86 +757,53 @@ namespace esphome
             // Set the temperature
             void set_temp(float temp)
             {
-                uint8_t temp_f = roundf(temp * 1.8 + 32);
-                switch (temp_f)
+                int t = static_cast<int>(temp);
+                switch (t)
                 {
-                case 61:
-                    blocking_send(temp_61_F, sizeof(temp_61_F));
+                case 16:
+                    blocking_send(temp_16_C, sizeof(temp_16_C));
                     break;
-                case 62:
-                    blocking_send(temp_62_F, sizeof(temp_62_F));
+                case 17:
+                    blocking_send(temp_17_C, sizeof(temp_17_C));
                     break;
-                case 63:
-                    blocking_send(temp_63_F, sizeof(temp_63_F));
+                case 18:
+                    blocking_send(temp_18_C, sizeof(temp_18_C));
                     break;
-                case 64:
-                    blocking_send(temp_64_F, sizeof(temp_64_F));
+                case 19:
+                    blocking_send(temp_19_C, sizeof(temp_19_C));
                     break;
-                case 65:
-                    blocking_send(temp_65_F, sizeof(temp_65_F));
+                case 20:
+                    blocking_send(temp_20_C, sizeof(temp_20_C));
                     break;
-                case 66:
-                    blocking_send(temp_66_F, sizeof(temp_66_F));
+                case 21:
+                    blocking_send(temp_21_C, sizeof(temp_21_C));
                     break;
-                case 67:
-                    blocking_send(temp_67_F, sizeof(temp_67_F));
+                case 22:
+                    blocking_send(temp_22_C, sizeof(temp_22_C));
                     break;
-                case 68:
-                    blocking_send(temp_68_F, sizeof(temp_68_F));
+                case 23:
+                    blocking_send(temp_23_C, sizeof(temp_23_C));
                     break;
-                case 69:
-                    blocking_send(temp_69_F, sizeof(temp_69_F));
+                case 24:
+                    blocking_send(temp_24_C, sizeof(temp_24_C));
                     break;
-                case 70:
-                    blocking_send(temp_70_F, sizeof(temp_70_F));
+                case 25:
+                    blocking_send(temp_25_C, sizeof(temp_25_C));
                     break;
-                case 71:
-                    blocking_send(temp_71_F, sizeof(temp_71_F));
+                case 26:
+                    blocking_send(temp_26_C, sizeof(temp_26_C));
                     break;
-                case 72:
-                    blocking_send(temp_72_F, sizeof(temp_72_F));
+                case 27:
+                    blocking_send(temp_27_C, sizeof(temp_27_C));
                     break;
-                case 73:
-                    blocking_send(temp_73_F, sizeof(temp_73_F));
+                case 28:
+                    blocking_send(temp_28_C, sizeof(temp_28_C));
                     break;
-                case 74:
-                    blocking_send(temp_74_F, sizeof(temp_74_F));
+                case 29:
+                    blocking_send(temp_29_C, sizeof(temp_29_C));
                     break;
-                case 75:
-                    blocking_send(temp_75_F, sizeof(temp_75_F));
-                    break;
-                case 76:
-                    blocking_send(temp_76_F, sizeof(temp_76_F));
-                    break;
-                case 77:
-                    blocking_send(temp_77_F, sizeof(temp_77_F));
-                    break;
-                case 78:
-                    blocking_send(temp_78_F, sizeof(temp_78_F));
-                    break;
-                case 79:
-                    blocking_send(temp_79_F, sizeof(temp_79_F));
-                    break;
-                case 80:
-                    blocking_send(temp_80_F, sizeof(temp_80_F));
-                    break;
-                case 81:
-                    blocking_send(temp_81_F, sizeof(temp_81_F));
-                    break;
-                case 82:
-                    blocking_send(temp_82_F, sizeof(temp_82_F));
-                    break;
-                case 83:
-                    blocking_send(temp_83_F, sizeof(temp_83_F));
-                    break;
-                case 84:
-                    blocking_send(temp_84_F, sizeof(temp_84_F));
-                    break;
-                case 85:
-                    blocking_send(temp_85_F, sizeof(temp_85_F));
-                    break;
-                case 86:
-                    blocking_send(temp_86_F, sizeof(temp_86_F));
+                case 30:
+                    blocking_send(temp_30_C, sizeof(temp_30_C));
                     break;
                 default:
                     break;
