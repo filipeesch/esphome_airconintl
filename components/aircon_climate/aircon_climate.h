@@ -788,7 +788,7 @@ namespace esphome
             }
 
             // Update sensors when the value has actually changed.
-            void set_sensor(sensor::Sensor &sensor, float value)
+            void set_sensor(sensor::Sensor *sensor, float value)
             {
                 if (sensor == nullptr)
                     return;
