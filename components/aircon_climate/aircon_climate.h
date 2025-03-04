@@ -287,6 +287,22 @@ namespace esphome
                                  status->indoor_humidity_setting,
                                  status->indoor_humidity_status);
 
+                        ESP_LOGD(TAG,
+                                 "indicate_led: %d\n"
+                                 "electric_communication: %d\n"
+                                 "indoor_electric: %d\n"
+                                 "outdoor_machine: %d\n"
+                                 "indoor_machine_run: %d\n"
+                                 "low_electricity: %d\n"
+                                 "indoor_electric (again): %d",
+                                 status->indicate_led,
+                                 status->electric_communication,
+                                 status->indoor_electric,
+                                 status->outdoor_machine,
+                                 status->indoor_machine_run,
+                                 status->low_electricity,
+                                 status->indoor_electric);
+
                         target_temperature = status->indoor_temperature_setting;
                         current_temperature = status->indoor_temperature_status;
 
@@ -795,6 +811,18 @@ namespace esphome
 
                 if (!sensor->has_state() || sensor->get_raw_state() != value)
                     sensor->publish_state(value);
+            }
+
+            void set_display_state(bool state)
+            {
+                if (state)
+                {
+                    blocking_send(display_on, sizeof(display_on));
+                }
+                else
+                {
+                    blocking_send(display_off, sizeof(display_off));
+                }
             }
 
             // Set the temperature
