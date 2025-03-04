@@ -189,30 +189,70 @@ namespace esphome
         {
         public:
             AirconClimate(uart::UARTComponent *parent) : PollingComponent(30000),
-                                                         UARTDevice(parent),
-                                                         compressor_frequency(),
-                                                         compressor_frequency_setting(),
-                                                         compressor_frequency_send(),
-                                                         outdoor_temperature(),
-                                                         outdoor_condenser_temperature(),
-                                                         compressor_exhaust_temperature(),
-                                                         target_exhaust_temperature(),
-                                                         indoor_pipe_temperature(),
-                                                         indoor_humidity_setting(),
-                                                         indoor_humidity_status() {}
+                                                         UARTDevice(parent) {}
+
+            void set_compressor_frequency_sensor(sensor::Sensor *sensor)
+            {
+                this->compressor_frequency = sensor;
+            }
+
+            void set_compressor_frequency_setting_sensor(sensor::Sensor *sensor)
+            {
+                this->compressor_frequency_setting = sensor;
+            }
+
+            void set_compressor_frequency_send_sensor(sensor::Sensor *sensor)
+            {
+                this->compressor_frequency_send = sensor;
+            }
+
+            void set_outdoor_temperature_sensor(sensor::Sensor *sensor)
+            {
+                this->outdoor_temperature = sensor;
+            }
+
+            void set_outdoor_condenser_temperature_sensor(sensor::Sensor *sensor)
+            {
+                this->outdoor_condenser_temperature = sensor;
+            }
+
+            void set_compressor_exhaust_temperature_sensor(sensor::Sensor *sensor)
+            {
+                this->compressor_exhaust_temperature = sensor;
+            }
+
+            void set_target_exhaust_temperature_sensor(sensor::Sensor *sensor)
+            {
+                this->target_exhaust_temperature = sensor;
+            }
+
+            void set_indoor_pipe_temperature_sensor(sensor::Sensor *sensor)
+            {
+                this->indoor_pipe_temperature = sensor;
+            }
+
+            void set_indoor_humidity_setting_sensor(sensor::Sensor *sensor)
+            {
+                this->indoor_humidity_setting = sensor;
+            }
+
+            void set_indoor_humidity_status_sensor(sensor::Sensor *sensor)
+            {
+                this->indoor_humidity_status = sensor;
+            }
 
             void setup() override
             {
-                compressor_frequency.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
-                compressor_frequency_setting.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
-                compressor_frequency_send.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
-                outdoor_temperature.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
-                outdoor_condenser_temperature.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
-                compressor_exhaust_temperature.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
-                target_exhaust_temperature.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
-                indoor_pipe_temperature.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
-                indoor_humidity_setting.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
-                indoor_humidity_status.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
+                // compressor_frequency.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
+                // compressor_frequency_setting.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
+                // compressor_frequency_send.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
+                // outdoor_temperature.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
+                // outdoor_condenser_temperature.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
+                // compressor_exhaust_temperature.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
+                // target_exhaust_temperature.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
+                // indoor_pipe_temperature.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
+                // indoor_humidity_setting.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
+                // indoor_humidity_status.set_state_class(sensor::STATE_CLASS_MEASUREMENT);
                 update();
             }
 
@@ -544,16 +584,16 @@ namespace esphome
                 return traits;
             }
 
-            sensor::Sensor compressor_frequency;
-            sensor::Sensor compressor_frequency_setting;
-            sensor::Sensor compressor_frequency_send;
-            sensor::Sensor outdoor_temperature;
-            sensor::Sensor outdoor_condenser_temperature;
-            sensor::Sensor compressor_exhaust_temperature;
-            sensor::Sensor target_exhaust_temperature;
-            sensor::Sensor indoor_pipe_temperature;
-            sensor::Sensor indoor_humidity_setting;
-            sensor::Sensor indoor_humidity_status;
+            sensor::Sensor *compressor_frequency;
+            sensor::Sensor *compressor_frequency_setting;
+            sensor::Sensor *compressor_frequency_send;
+            sensor::Sensor *outdoor_temperature;
+            sensor::Sensor *outdoor_condenser_temperature;
+            sensor::Sensor *compressor_exhaust_temperature;
+            sensor::Sensor *target_exhaust_temperature;
+            sensor::Sensor *indoor_pipe_temperature;
+            sensor::Sensor *indoor_humidity_setting;
+            sensor::Sensor *indoor_humidity_status;
 
         private:
             float heat_tgt_temp = 16.1111f;
@@ -750,8 +790,11 @@ namespace esphome
             // Update sensors when the value has actually changed.
             void set_sensor(sensor::Sensor &sensor, float value)
             {
-                if (!sensor.has_state() || sensor.get_raw_state() != value)
-                    sensor.publish_state(value);
+                if (sensor == nullptr)
+                    return;
+
+                if (!sensor->has_state() || sensor->get_raw_state() != value)
+                    sensor->publish_state(value);
             }
 
             // Set the temperature
