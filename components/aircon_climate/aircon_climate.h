@@ -261,211 +261,108 @@ namespace esphome
 
                     if (msg_size > 0)
                     {
-                        ESP_LOGD(TAG,
-                                 "header[0]: %02x\n"
-                                 "wind_status: %d\n"
-                                 "sleep_status: %d\n"
-                                 "direction_status: %d\n"
-                                 "run_status: %d\n"
-                                 "mode_status: %d\n"
-                                 "indoor_temperature_setting: %d\n"
-                                 "indoor_temperature_status: %d\n"
-                                 "indoor_pipe_temperature: %d\n"
-                                 "indoor_humidity_setting: %d\n"
-                                 "indoor_humidity_status: %d\n"
-                                 "somatosensory_temperature: %d\n"
-                                 "somatosensory_compensation_ctrl: %d\n"
-                                 "somatosensory_compensation: %d\n"
-                                 "temperature_Fahrenheit: %d\n"
-                                 "temperature_compensation: %d\n"
-                                 "timer: %d\n"
-                                 "hour: %d\n"
-                                 "minute: %d\n"
-                                 "poweron_hour: %d\n"
-                                 "poweron_minute: %d\n"
-                                 "poweroff_hour: %d\n"
-                                 "poweroff_minute: %d\n"
-                                 "wind_door: %d\n"
-                                 "drying: %d\n"
-                                 "dual_frequency: %d\n"
-                                 "efficient: %d\n"
-                                 "low_electricity: %d\n"
-                                 "low_power: %d\n"
-                                 "heat: %d\n"
-                                 "nature: %d\n"
-                                 "left_right: %d\n"
-                                 "up_down: %d\n"
-                                 "smoke: %d\n"
-                                 "voice: %d\n"
-                                 "mute: %d\n"
-                                 "smart_eye: %d\n"
-                                 "outdoor_clear: %d\n"
-                                 "indoor_clear: %d\n"
-                                 "swap: %d\n"
-                                 "dew: %d\n"
-                                 "indoor_electric: %d\n"
-                                 "right_wind: %d\n"
-                                 "left_wind: %d\n"
-                                 "filter_reset: %d\n"
-                                 "indoor_led: %d\n"
-                                 "indicate_led: %d\n"
-                                 "display_led: %d\n"
-                                 "back_led: %d\n"
-                                 "indoor_eeprom: %d\n"
-                                 "sample: %d\n"
-                                 "rev23: %d\n"
-                                 "time_lapse: %d\n"
-                                 "auto_check: %d\n"
-                                 "indoor_outdoor_communication: %d\n"
-                                 "indoor_zero_voltage: %d\n"
-                                 "indoor_bars: %d\n"
-                                 "indoor_machine_run: %d\n"
-                                 "indoor_water_pump: %d\n"
-                                 "indoor_humidity_sensor: %d\n"
-                                 "indoor_temperature_pipe_sensor: %d\n"
-                                 "indoor_temperature_sensor: %d\n"
-                                 "rev25: %d\n"
-                                 "eeprom_communication: %d\n"
-                                 "electric_communication: %d\n"
-                                 "keypad_communication: %d\n"
-                                 "display_communication: %d\n"
-                                 "compressor_frequency: %d\n"
-                                 "compressor_frequency_setting: %d\n"
-                                 "compressor_frequency_send: %d\n"
-                                 "outdoor_temperature: %d\n"
-                                 "outdoor_condenser_temperature: %d\n"
-                                 "compressor_exhaust_temperature: %d\n"
-                                 "target_exhaust_temperature: %d\n"
-                                 "expand_threshold: %d\n"
-                                 "UAB_HIGH: %d\n"
-                                 "UAB_LOW: %d\n"
-                                 "UBC_HIGH: %d\n"
-                                 "UBC_LOW: %d\n"
-                                 "UCA_HIGH: %d\n"
-                                 "UCA_LOW: %d\n"
-                                 "IAB: %d\n"
-                                 "IBC: %d\n"
-                                 "ICA: %d\n"
-                                 "generatrix_voltage_high: %d\n"
-                                 "generatrix_voltage_low: %d\n"
-                                 "IUV: %d\n"
-                                 "wind_machine: %d\n"
-                                 "outdoor_machine: %d\n"
-                                 "four_way: %d\n"
-                                 "rev46: %d\n"
-                                 "rev47: %d\n"
-                                 "rev48: %d\n"
-                                 "rev49: %d\n"
-                                 "rev50: %d\n"
-                                 "rev51: %d\n"
-                                 "rev52: %d\n"
-                                 "rev53: %d\n"
-                                 "rev54: %d\n"
-                                 "rev55: %d\n"
-                                 "rev56: %d\n"
-                                 "chk_sum: %d",
-                                 status->header[0],
-                                 status->wind_status,
-                                 status->sleep_status,
-                                 status->direction_status,
-                                 status->run_status,
-                                 status->mode_status,
-                                 status->indoor_temperature_setting,
-                                 status->indoor_temperature_status,
-                                 status->indoor_pipe_temperature,
-                                 status->indoor_humidity_setting,
-                                 status->indoor_humidity_status,
-                                 status->somatosensory_temperature,
-                                 status->somatosensory_compensation_ctrl,
-                                 status->somatosensory_compensation,
-                                 status->temperature_Fahrenheit,
-                                 status->temperature_compensation,
-                                 status->timer,
-                                 status->hour,
-                                 status->minute,
-                                 status->poweron_hour,
-                                 status->poweron_minute,
-                                 status->poweroff_hour,
-                                 status->poweroff_minute,
-                                 status->wind_door,
-                                 status->drying,
-                                 status->dual_frequency,
-                                 status->efficient,
-                                 status->low_electricity,
-                                 status->low_power,
-                                 status->heat,
-                                 status->nature,
-                                 status->left_right,
-                                 status->up_down,
-                                 status->smoke,
-                                 status->voice,
-                                 status->mute,
-                                 status->smart_eye,
-                                 status->outdoor_clear,
-                                 status->indoor_clear,
-                                 status->swap,
-                                 status->dew,
-                                 status->indoor_electric,
-                                 status->right_wind,
-                                 status->left_wind,
-                                 status->filter_reset,
-                                 status->indoor_led,
-                                 status->indicate_led,
-                                 status->display_led,
-                                 status->back_led,
-                                 status->indoor_eeprom,
-                                 status->sample,
-                                 status->rev23,
-                                 status->time_lapse,
-                                 status->auto_check,
-                                 status->indoor_outdoor_communication,
-                                 status->indoor_zero_voltage,
-                                 status->indoor_bars,
-                                 status->indoor_machine_run,
-                                 status->indoor_water_pump,
-                                 status->indoor_humidity_sensor,
-                                 status->indoor_temperature_pipe_sensor,
-                                 status->indoor_temperature_sensor,
-                                 status->rev25,
-                                 status->eeprom_communication,
-                                 status->electric_communication,
-                                 status->keypad_communication,
-                                 status->display_communication,
-                                 status->compressor_frequency,
-                                 status->compressor_frequency_setting,
-                                 status->compressor_frequency_send,
-                                 status->outdoor_temperature,
-                                 status->outdoor_condenser_temperature,
-                                 status->compressor_exhaust_temperature,
-                                 status->target_exhaust_temperature,
-                                 status->expand_threshold,
-                                 status->UAB_HIGH,
-                                 status->UAB_LOW,
-                                 status->UBC_HIGH,
-                                 status->UBC_LOW,
-                                 status->UCA_HIGH,
-                                 status->UCA_LOW,
-                                 status->IAB,
-                                 status->IBC,
-                                 status->ICA,
-                                 status->generatrix_voltage_high,
-                                 status->generatrix_voltage_low,
-                                 status->IUV,
-                                 status->wind_machine,
-                                 status->outdoor_machine,
-                                 status->four_way,
-                                 status->rev46,
-                                 status->rev47,
-                                 status->rev48,
-                                 status->rev49,
-                                 status->rev50,
-                                 status->rev51,
-                                 status->rev52,
-                                 status->rev53,
-                                 status->rev54,
-                                 status->rev55,
-                                 status->rev56,
-                                 status->chk_sum);
+                        ESP_LOGD(TAG, "header[0]: %02x", status->header[0]);
+                        ESP_LOGD(TAG, "wind_status: %d", status->wind_status);
+                        ESP_LOGD(TAG, "sleep_status: %d", status->sleep_status);
+                        ESP_LOGD(TAG, "direction_status: %d", status->direction_status);
+                        ESP_LOGD(TAG, "run_status: %d", status->run_status);
+                        ESP_LOGD(TAG, "mode_status: %d", status->mode_status);
+                        ESP_LOGD(TAG, "indoor_temperature_setting: %d", status->indoor_temperature_setting);
+                        ESP_LOGD(TAG, "indoor_temperature_status: %d", status->indoor_temperature_status);
+                        ESP_LOGD(TAG, "indoor_pipe_temperature: %d", status->indoor_pipe_temperature);
+                        ESP_LOGD(TAG, "indoor_humidity_setting: %d", status->indoor_humidity_setting);
+                        ESP_LOGD(TAG, "indoor_humidity_status: %d", status->indoor_humidity_status);
+                        ESP_LOGD(TAG, "somatosensory_temperature: %d", status->somatosensory_temperature);
+                        ESP_LOGD(TAG, "somatosensory_compensation_ctrl: %d", status->somatosensory_compensation_ctrl);
+                        ESP_LOGD(TAG, "somatosensory_compensation: %d", status->somatosensory_compensation);
+                        ESP_LOGD(TAG, "temperature_Fahrenheit: %d", status->temperature_Fahrenheit);
+                        ESP_LOGD(TAG, "temperature_compensation: %d", status->temperature_compensation);
+                        ESP_LOGD(TAG, "timer: %d", status->timer);
+                        ESP_LOGD(TAG, "hour: %d", status->hour);
+                        ESP_LOGD(TAG, "minute: %d", status->minute);
+                        ESP_LOGD(TAG, "poweron_hour: %d", status->poweron_hour);
+                        ESP_LOGD(TAG, "poweron_minute: %d", status->poweron_minute);
+                        ESP_LOGD(TAG, "poweroff_hour: %d", status->poweroff_hour);
+                        ESP_LOGD(TAG, "poweroff_minute: %d", status->poweroff_minute);
+                        ESP_LOGD(TAG, "wind_door: %d", status->wind_door);
+                        ESP_LOGD(TAG, "drying: %d", status->drying);
+                        ESP_LOGD(TAG, "dual_frequency: %d", status->dual_frequency);
+                        ESP_LOGD(TAG, "efficient: %d", status->efficient);
+                        ESP_LOGD(TAG, "low_electricity: %d", status->low_electricity);
+                        ESP_LOGD(TAG, "low_power: %d", status->low_power);
+                        ESP_LOGD(TAG, "heat: %d", status->heat);
+                        ESP_LOGD(TAG, "nature: %d", status->nature);
+                        ESP_LOGD(TAG, "left_right: %d", status->left_right);
+                        ESP_LOGD(TAG, "up_down: %d", status->up_down);
+                        ESP_LOGD(TAG, "smoke: %d", status->smoke);
+                        ESP_LOGD(TAG, "voice: %d", status->voice);
+                        ESP_LOGD(TAG, "mute: %d", status->mute);
+                        ESP_LOGD(TAG, "smart_eye: %d", status->smart_eye);
+                        ESP_LOGD(TAG, "outdoor_clear: %d", status->outdoor_clear);
+                        ESP_LOGD(TAG, "indoor_clear: %d", status->indoor_clear);
+                        ESP_LOGD(TAG, "swap: %d", status->swap);
+                        ESP_LOGD(TAG, "dew: %d", status->dew);
+                        ESP_LOGD(TAG, "indoor_electric: %d", status->indoor_electric);
+                        ESP_LOGD(TAG, "right_wind: %d", status->right_wind);
+                        ESP_LOGD(TAG, "left_wind: %d", status->left_wind);
+                        ESP_LOGD(TAG, "filter_reset: %d", status->filter_reset);
+                        ESP_LOGD(TAG, "indoor_led: %d", status->indoor_led);
+                        ESP_LOGD(TAG, "indicate_led: %d", status->indicate_led);
+                        ESP_LOGD(TAG, "display_led: %d", status->display_led);
+                        ESP_LOGD(TAG, "back_led: %d", status->back_led);
+                        ESP_LOGD(TAG, "indoor_eeprom: %d", status->indoor_eeprom);
+                        ESP_LOGD(TAG, "sample: %d", status->sample);
+                        ESP_LOGD(TAG, "rev23: %d", status->rev23);
+                        ESP_LOGD(TAG, "time_lapse: %d", status->time_lapse);
+                        ESP_LOGD(TAG, "auto_check: %d", status->auto_check);
+                        ESP_LOGD(TAG, "indoor_outdoor_communication: %d", status->indoor_outdoor_communication);
+                        ESP_LOGD(TAG, "indoor_zero_voltage: %d", status->indoor_zero_voltage);
+                        ESP_LOGD(TAG, "indoor_bars: %d", status->indoor_bars);
+                        ESP_LOGD(TAG, "indoor_machine_run: %d", status->indoor_machine_run);
+                        ESP_LOGD(TAG, "indoor_water_pump: %d", status->indoor_water_pump);
+                        ESP_LOGD(TAG, "indoor_humidity_sensor: %d", status->indoor_humidity_sensor);
+                        ESP_LOGD(TAG, "indoor_temperature_pipe_sensor: %d", status->indoor_temperature_pipe_sensor);
+                        ESP_LOGD(TAG, "indoor_temperature_sensor: %d", status->indoor_temperature_sensor);
+                        ESP_LOGD(TAG, "rev25: %d", status->rev25);
+                        ESP_LOGD(TAG, "eeprom_communication: %d", status->eeprom_communication);
+                        ESP_LOGD(TAG, "electric_communication: %d", status->electric_communication);
+                        ESP_LOGD(TAG, "keypad_communication: %d", status->keypad_communication);
+                        ESP_LOGD(TAG, "display_communication: %d", status->display_communication);
+                        ESP_LOGD(TAG, "compressor_frequency: %d", status->compressor_frequency);
+                        ESP_LOGD(TAG, "compressor_frequency_setting: %d", status->compressor_frequency_setting);
+                        ESP_LOGD(TAG, "compressor_frequency_send: %d", status->compressor_frequency_send);
+                        ESP_LOGD(TAG, "outdoor_temperature: %d", status->outdoor_temperature);
+                        ESP_LOGD(TAG, "outdoor_condenser_temperature: %d", status->outdoor_condenser_temperature);
+                        ESP_LOGD(TAG, "compressor_exhaust_temperature: %d", status->compressor_exhaust_temperature);
+                        ESP_LOGD(TAG, "target_exhaust_temperature: %d", status->target_exhaust_temperature);
+                        ESP_LOGD(TAG, "expand_threshold: %d", status->expand_threshold);
+                        ESP_LOGD(TAG, "UAB_HIGH: %d", status->UAB_HIGH);
+                        ESP_LOGD(TAG, "UAB_LOW: %d", status->UAB_LOW);
+                        ESP_LOGD(TAG, "UBC_HIGH: %d", status->UBC_HIGH);
+                        ESP_LOGD(TAG, "UBC_LOW: %d", status->UBC_LOW);
+                        ESP_LOGD(TAG, "UCA_HIGH: %d", status->UCA_HIGH);
+                        ESP_LOGD(TAG, "UCA_LOW: %d", status->UCA_LOW);
+                        ESP_LOGD(TAG, "IAB: %d", status->IAB);
+                        ESP_LOGD(TAG, "IBC: %d", status->IBC);
+                        ESP_LOGD(TAG, "ICA: %d", status->ICA);
+                        ESP_LOGD(TAG, "generatrix_voltage_high: %d", status->generatrix_voltage_high);
+                        ESP_LOGD(TAG, "generatrix_voltage_low: %d", status->generatrix_voltage_low);
+                        ESP_LOGD(TAG, "IUV: %d", status->IUV);
+                        ESP_LOGD(TAG, "wind_machine: %d", status->wind_machine);
+                        ESP_LOGD(TAG, "outdoor_machine: %d", status->outdoor_machine);
+                        ESP_LOGD(TAG, "four_way: %d", status->four_way);
+                        ESP_LOGD(TAG, "rev46: %d", status->rev46);
+                        ESP_LOGD(TAG, "rev47: %d", status->rev47);
+                        ESP_LOGD(TAG, "rev48: %d", status->rev48);
+                        ESP_LOGD(TAG, "rev49: %d", status->rev49);
+                        ESP_LOGD(TAG, "rev50: %d", status->rev50);
+                        ESP_LOGD(TAG, "rev51: %d", status->rev51);
+                        ESP_LOGD(TAG, "rev52: %d", status->rev52);
+                        ESP_LOGD(TAG, "rev53: %d", status->rev53);
+                        ESP_LOGD(TAG, "rev54: %d", status->rev54);
+                        ESP_LOGD(TAG, "rev55: %d", status->rev55);
+                        ESP_LOGD(TAG, "rev56: %d", status->rev56);
+                        ESP_LOGD(TAG, "chk_sum: %d", status->chk_sum);
 
                         target_temperature = status->indoor_temperature_setting;
                         current_temperature = status->indoor_temperature_status;
